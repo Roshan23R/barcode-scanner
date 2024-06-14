@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import Tesseract from "tesseract.js";
 
 const CameraOcrScanner = () => {
@@ -9,22 +9,14 @@ const CameraOcrScanner = () => {
   const [result, setResult] = useState(null);
   const [stream, setStream] = useState(null); // State to hold the camera stream
 
-  useEffect(() => {
-    startCamera();
-    return () => {
-      stopCamera();
-    };
-  }, []); // ComponentDidMount equivalent - start camera on mount and cleanup on unmount
-
   const startCamera = () => {
     const constraints = {
-      video: {
+    video: {
         facingMode: { exact: "environment" }, // Use back camera if available
       },
-    };
-
+    }
     navigator.mediaDevices
-      .getUserMedia(constraints)
+      .getUserMedia({ video: constraints})
       .then((stream) => {
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
